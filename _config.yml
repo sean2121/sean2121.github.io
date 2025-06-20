@@ -1,0 +1,17 @@
+# Jekyll configuration
+
+# Site settings
+
+permalink: pretty
+
+# Title and tagline
+
+title: Developer Coaching
+
+description: External 1-on-1 coaching for software engineers.
+
+# Build settings
+
+markdown: kramdown
+
+
