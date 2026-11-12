@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CITRIN株式会社</title>
+<meta name="description" content="CITRIN株式会社 — オントロジー構築">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #D9A21B;
+    --accent-soft: #F3D47A;
+    --text: #222;
+    --muted: #6b6b6b;
+    --line: #e3dfd4;
+    --node: #fff;
+    --bg: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --text: #ece9e2; --muted: #a6a29a; --line: #2f2d28; --node: #1d1c19; --bg: #161513; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Noto Sans JP", system-ui, sans-serif;
+    line-height: 1.9; font-size: 16px;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 56px 20px 96px; }
+  code, .triple { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  /* header */
+  header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px; }
+  .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: .18em; margin: 0; }
+  .logo::before {
+    content: ""; display: inline-block; width: .7em; height: .7em; margin-right: .5em;
+    border-radius: 50%; background: var(--accent); vertical-align: -0.02em;
+  }
+  .tagline { color: var(--muted); margin: 0; font-size: .9rem; letter-spacing: .04em; }
+
+  /* graph hero */
+  .graph { width: 100%; height: auto; display: block; margin: 0 0 48px; overflow: visible; }
+  .graph .edge { stroke: var(--line); stroke-width: 1.5; fill: none; }
+  .graph .edge.main { stroke: var(--accent); stroke-width: 2; }
+  .graph .edge-label { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; fill: var(--muted); }
+  .graph .node circle { fill: var(--node); stroke: var(--text); stroke-width: 1.5; }
+  .graph .node.center circle { fill: var(--accent); stroke: var(--accent); }
+  .graph .node.center text { fill: #1a1a1a; font-weight: 700; letter-spacing: .12em; }
+  .graph .node.minor circle { stroke: var(--line); stroke-width: 1.5; }
+  .graph .node.minor text { fill: var(--muted); font-size: 11px; }
+  .graph .node text { font-family: "Noto Sans JP", system-ui, sans-serif; font-size: 13px; fill: var(--text); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .graph a.node { cursor: pointer; text-decoration: none; }
+  .graph a.node:hover circle { stroke: var(--accent); }
+  @media (prefers-reduced-motion: no-preference) {
+    .float { animation: float 7s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    .float.d1 { animation-delay: -2s; } .float.d2 { animation-delay: -4s; } .float.d3 { animation-delay: -5.5s; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  }
+
+  /* copy */
+  h1 { font-size: 1.8rem; line-height: 1.5; margin: 0 0 .8em; }
+  h1.en { font-size: 2.1rem; line-height: 1.3; letter-spacing: .01em; }
+  @media (max-width: 520px) { h1.en { font-size: 1.7rem; } }
+  p { margin: 0 0 1.2em; }
+
+  /* spine: sections as nodes along a vertical edge */
+  .spine { margin-top: 64px; border-left: 1.5px solid var(--line); padding-left: 32px; }
+  .spine section { position: relative; padding-bottom: 56px; }
+  .spine section:last-child { padding-bottom: 0; }
+  .spine h2 {
+    font-size: .9rem; letter-spacing: .16em; color: var(--muted); font-weight: 700; margin: 0 0 1.2em;
+  }
+  .spine h2::before {
+    content: ""; position: absolute; left: -39px; top: .55em;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--node); border: 1.5px solid var(--text);
+  }
+  .spine section.accent h2::before { background: var(--accent); border-color: var(--accent); }
+
+  ul.services { list-style: none; padding: 0; margin: 0; }
+  ul.services li { padding: 18px 0; border-top: 1px solid var(--line); }
+  ul.services li:last-child { border-bottom: 1px solid var(--line); }
+  .triple { display: block; font-size: .75rem; color: var(--muted); margin-bottom: .3em; }
+  .triple b { font-weight: 400; color: var(--accent); }
+  ul.services strong { display: block; font-size: 1.05rem; }
+  ul.services span { color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; }
+  ol.biz { margin: 0; padding-left: 1.4em; }
+  ol.biz li { padding-left: .2em; }
+  th, td { text-align: left; padding: 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { width: 7em; font-weight: 400; color: var(--muted); }
+  a { color: inherit; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+  footer { margin-top: 80px; color: var(--muted); font-size: .85rem; }
+  @media (max-width: 520px) {
+    header { flex-direction: column; gap: 4px; }
+    .graph .minor, .graph .edge:not(.main) { display: none; }
+    .graph .node text { font-size: 14px; }
+    .graph a.node circle { r: 42px; }
+    .graph .edge-label { font-size: 12px; }
+    .spine { padding-left: 24px; }
+    .spine h2::before { left: -31px; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <header>
+    <p class="logo">CITRIN</p>
+    <p class="tagline">Ontology / Knowledge Graph / AI Grounding</p>
+  </header>
+
+  <!-- ===== Knowledge graph ===== -->
+  <svg class="graph" viewBox="0 0 680 400" role="img" aria-label="CITRIN を中心に Ontology、Knowledge Graph、AI Grounding がつながる知識グラフ">
+    <!-- minor edges -->
+    <g class="edge">
+      <line x1="150" y1="120" x2="70"  y2="60"/>
+      <line x1="150" y1="120" x2="60"  y2="170"/>
+      <line x1="150" y1="120" x2="120" y2="230"/>
+      <line x1="530" y1="120" x2="610" y2="60"/>
+      <line x1="530" y1="120" x2="625" y2="170"/>
+      <line x1="530" y1="120" x2="560" y2="230"/>
+      <line x1="340" y1="330" x2="240" y2="375"/>
+      <line x1="340" y1="330" x2="440" y2="375"/>
+      <line x1="340" y1="330" x2="470" y2="300"/>
+      <line x1="120" y1="230" x2="240" y2="375"/>
+      <line x1="560" y1="230" x2="470" y2="300"/>
+    </g>
+    <!-- main edges -->
+    <g class="edge main">
+      <line x1="340" y1="200" x2="150" y2="120"/>
+      <line x1="340" y1="200" x2="530" y2="120"/>
+      <line x1="340" y1="200" x2="340" y2="330"/>
+    </g>
+    <!-- edge labels -->
+    <text class="edge-label" x="232" y="150" text-anchor="middle">:designs</text>
+    <text class="edge-label" x="448" y="150" text-anchor="middle">:builds</text>
+    <text class="edge-label" x="352" y="270" text-anchor="start">:enables</text>
+
+    <!-- minor nodes -->
+    <g class="node minor float d1"><circle cx="70"  cy="60"  r="18"/><text x="70"  y="60">Class</text></g>
+    <g class="node minor float d2"><circle cx="60"  cy="170" r="22"/><text x="60"  y="170">Property</text></g>
+    <g class="node minor float d3"><circle cx="120" cy="230" r="20"/><text x="120" y="230">Schema</text></g>
+    <g class="node minor float d2"><circle cx="610" cy="60"  r="18"/><text x="610" y="60">RDF</text></g>
+    <g class="node minor float d1"><circle cx="625" cy="170" r="22"/><text x="625" y="170">SPARQL</text></g>
+    <g class="node minor float d3"><circle cx="560" cy="230" r="22"/><text x="560" y="230">Interop</text></g>
+    <g class="node minor float d1"><circle cx="240" cy="375" r="18"/><text x="240" y="375">LLM</text></g>
+    <g class="node minor float d2"><circle cx="440" cy="375" r="26"/><text x="440" y="375">Graph RAG</text></g>
+    <g class="node minor float d3"><circle cx="470" cy="300" r="20"/><text x="470" y="300">Agent</text></g>
+
+    <!-- main nodes -->
+    <a class="node float" href="#ontology"><circle cx="150" cy="120" r="36"/><text x="150" y="120">Ontology</text></a>
+    <a class="node float d1" href="#kg"><circle cx="530" cy="120" r="40"/><text x="530" y="112">Knowledge<tspan x="530" dy="1.1em">Graph</tspan></text></a>
+    <a class="node float d2" href="#grounding"><circle cx="340" cy="330" r="40"/><text x="340" y="322">AI<tspan x="340" dy="1.1em">Grounding</tspan></text></a>
+    <g class="node center"><circle cx="340" cy="200" r="40"/><text x="340" y="200">CITRIN</text></g>
+  </svg>
+
+  <h1 class="en">Model the Meaning.<br>Connect the Data.<br>Ground the AI.</h1>
+
+  <div class="spine">
+
+    <section class="accent">
+      <h2>SERVICES</h2>
+      <ul class="services">
+        <!-- TODO: 説明文を差し替え -->
+        <li id="ontology">
+          <span class="triple">:CITRIN <b>:designs</b> :Ontology .</span>
+          <strong>Ontology</strong>
+        </li>
+        <li id="kg">
+          <span class="triple">:CITRIN <b>:builds</b> :KnowledgeGraph .</span>
+          <strong>Knowledge Graph</strong>
+        </li>
+        <li id="grounding">
+          <span class="triple">:CITRIN <b>:enables</b> :AIGrounding .</span>
+          <strong>AI Grounding</strong>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>COMPANY</h2>
+      <table>
+        <!-- TODO: 差し替え -->
+        <tr><th>会社名</th><td>CITRIN株式会社</td></tr>        
+        <tr><th>代表者</th><td>徳永翔二</td></tr>
+        <tr><th>所在地</th><td>兵庫県神戸市</td></tr>
+        <tr><th>事業内容</th><td>
+          <ol class="biz">
+            <li>情報システム・データ基盤の企画、設計、開発、運用及び保守</li>
+            <li>ソフトウェアの企画、開発、販売及びライセンスの提供</li>
+            <li>データ活用、オントロジー工学に関するコンサルティング</li>
+            <li>前各号に関する研究開発、教育及び研修</li>
+            <li>前各号に附帯関連する一切の業務</li>
+          </ol>
+        </td></tr>
+      </table>
+    </section>  
+  </div>
+
+  <footer>&copy; CITRIN Inc.</footer>
+
+</main>
+<script>
+  // スマホ幅では主要ノードだけを拡大表示
+  (function () {
+    var svg = document.querySelector('.graph');
+    var mq = window.matchMedia('(max-width: 520px)');
+    function apply() { svg.setAttribute('viewBox', mq.matches ? '100 70 480 310' : '0 0 680 400'); }
+    mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener(apply);
+    apply();
+  })();
+</script>
+</body>
+</html>
