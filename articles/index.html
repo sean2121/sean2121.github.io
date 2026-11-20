@@ -1,0 +1,13 @@
+---
+layout: default
+title: Articles
+description: オントロジー、ナレッジグラフ、AIグラウンディングについての解説と考察。
+---
+  <h1 class="page-title">Articles</h1>
+  <p class="page-lead">{{ page.description }}</p>
+
+  {% if site.posts.size > 0 %}
+  {% include post-list.html posts=site.posts %}
+  {% else %}
+  <p class="empty">記事は準備中です。</p>
+  {% endif %}

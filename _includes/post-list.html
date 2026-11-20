@@ -1,0 +1,10 @@
+<ol class="posts{% if include.plain %} plain{% endif %}">
+  {%- for post in include.posts %}
+  <li>
+    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%Y-%m-%d' }}</time>
+    <h3><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
+    <p>{{ post.description | default: post.excerpt | strip_html | strip_newlines | truncate: 120 }}</p>
+    {% include tags.html tags=post.tags %}
+  </li>
+  {%- endfor %}
+</ol>

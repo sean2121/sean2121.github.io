@@ -1,0 +1,26 @@
+title: CITRINE株式会社
+description: CITRINE株式会社 — オントロジー構築
+url: https://sean2121.github.io
+lang: ja
+timezone: Asia/Tokyo
+author: 徳永 翔二
+
+# 記事のURL: /articles/<ファイル名の日付より後ろの部分>/
+permalink: /articles/:title/
+
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: post }
+  - scope: { path: "_drafts" }
+    values: { layout: post }
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor

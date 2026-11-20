@@ -1,0 +1,26 @@
+---
+layout: default
+---
+  <article>
+    <a class="back" href="{{ '/articles/' | relative_url }}">← Articles</a>
+
+    <div class="post-head">
+      <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%Y-%m-%d' }}</time>
+      <h1>{{ page.title | escape }}</h1>
+      <div class="post-meta">
+        <div class="byline"><span class="avatar" aria-hidden="true"></span>{{ page.author | default: site.author }}</div>
+        {% include tags.html tags=page.tags %}
+      </div>
+    </div>
+
+    <div class="post-body">
+{{ content }}
+    </div>
+
+    {%- if page.previous or page.next %}
+    <nav class="post-nav" aria-label="前後の記事">
+      {% if page.previous %}<a class="prev" href="{{ page.previous.url | relative_url }}"><small>← PREVIOUS</small><span>{{ page.previous.title | escape }}</span></a>{% else %}<span></span>{% endif %}
+      {% if page.next %}<a class="next" href="{{ page.next.url | relative_url }}"><small>NEXT →</small><span>{{ page.next.title | escape }}</span></a>{% endif %}
+    </nav>
+    {%- endif %}
+  </article>
